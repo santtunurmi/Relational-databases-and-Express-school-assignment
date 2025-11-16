@@ -6,6 +6,7 @@ const { PORT } = process.env
 import sequelize from './db/postgres.js'
 
 import vehicles from './routes/vehicles.js'
+import users from './routes/users.js'
 import errorHandler from './middleware/errorhandler.js'
 
 // static assets
@@ -16,6 +17,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/api/vehicles', vehicles)
+
+app.use('/api/users', users)
 
 app.use(errorHandler)
 
