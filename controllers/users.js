@@ -1,9 +1,13 @@
-import { User } from '../models/Index.js'
+import { Vehicle, User } from '../models/Index.js'
 import { StatusCodes } from 'http-status-codes'
 
 const getUsers = async (req, res) => {
   const users = await User.findAll({
     attributes: {exclude : ['username']},
+    include: {
+      model: Vehicle,
+      attributes: {exclude: ['userId']}
+    }
   })
   res.status(StatusCodes.OK).json({ success: true, data: users })
 }

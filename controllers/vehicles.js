@@ -1,16 +1,30 @@
-import { Vehicle } from '../models/Index.js'
+import { Vehicle, User } from '../models/Index.js'
 import { StatusCodes } from 'http-status-codes'
 
 const getVehicles = async (req, res) => {
-  const vehicles = await Vehicle.findAll()
+  const vehicles = await Vehicle.findAll({
+    attributes: { exclude: ['userId'] },
+    include: {
+      model: User,
+      attributes: ['name']
+    }
+  })
   res.status(StatusCodes.OK).json({ success: true, data: vehicles })
 }
 
 const createVehicle = async (req, res) => {
+  const { user } = req.query
+  if ( !Number(user) ) {
+    return res.status(StatusCodes.BAD_REQUEST).json({success: false, msg: 'No userId or bad userId provided'})
+  }
+  const checkUser = await User.findByPk(Number(user))
+  if (!checkUser) {
+    return res.status(StatusCodes.NOT_FOUND).json({success: false, msg: 'User not found'})
+  }
   const { make, model, license_plate, commissioned } = req.body
   const type = Math.round(Math.random()) > 0 ? 'Van' : 'Passenger car'
-  const vehicle = await Vehicle.create({make, model, type, license_plate, commissioned})
-  return res.status(StatusCodes.CREATED).send({ success: true, data: vehicle })  
+  const vehicle = await Vehicle.create({make, model, type, license_plate, commissioned, userId: user})
+  return res.status(StatusCodes.CREATED).send({ success: true, data: vehicle })
 }
 
 const getSingleVehicle = async (req, res) => {
