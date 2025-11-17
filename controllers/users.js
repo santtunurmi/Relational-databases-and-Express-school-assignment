@@ -6,7 +6,7 @@ const getUsers = async (req, res) => {
     attributes: {exclude : ['username']},
     include: {
       model: Vehicle,
-      attributes: {exclude: ['userId']}
+      attributes: {exclude: ['user_id']}
     }
   })
   res.status(StatusCodes.OK).json({ success: true, data: users })

@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 
 const getVehicles = async (req, res) => {
   const vehicles = await Vehicle.findAll({
-    attributes: { exclude: ['userId'] },
+    attributes: { exclude: ['user_id'] },
     include: {
       model: User,
       attributes: ['name']
@@ -24,7 +24,7 @@ const createVehicle = async (req, res) => {
   }
   const { make, model, license_plate, commissioned } = req.body
   const type = Math.round(Math.random()) > 0 ? 'Van' : 'Passenger car'
-  const vehicle = await Vehicle.create({make, model, type, license_plate, commissioned, userId: user})
+  const vehicle = await Vehicle.create({make, model, type, license_plate, commissioned, user_id: user})
   return res.status(StatusCodes.CREATED).send({ success: true, data: vehicle })
 }
 

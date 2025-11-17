@@ -32,7 +32,7 @@ const Vehicle = sequelize.define('vehicle', {
     type: DataTypes.BOOLEAN,
     allowNull: false
   },
-  userId: {
+  user_id: {
     type: DataTypes.UUID,
     allowNull: false
   },
