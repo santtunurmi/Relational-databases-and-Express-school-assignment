@@ -1,4 +1,5 @@
 import { Vehicle, User } from '../models/Index.js'
+import { DataTypes} from 'sequelize'
 import { StatusCodes } from 'http-status-codes'
 
 const getVehicles = async (req, res) => {
@@ -14,7 +15,7 @@ const getVehicles = async (req, res) => {
 
 const createVehicle = async (req, res) => {
   const { user } = req.query
-  if ( !Number(user) ) {
+  if ( !DataTypes.UUID(user) ) {
     return res.status(StatusCodes.BAD_REQUEST).json({success: false, msg: 'No userId or bad userId provided'})
   }
   const checkUser = await User.findByPk(Number(user))
