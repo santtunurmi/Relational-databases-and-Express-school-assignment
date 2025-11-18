@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 
 const getVehicles = async (req, res) => {
   const vehicles = await Vehicle.findAll({
-    attributes: { exclude: ['userId'] },
+    attributes: { exclude: ['userId','user_id'] },
     include: {
       model: User,
       attributes: ['name']
